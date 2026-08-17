@@ -113,6 +113,9 @@ consideradas y lo que cuestan.
 - [0002](docs/adr/0002-modulo-maven-unico.md) — Un solo módulo Maven, no un build multi-módulo
 - [0003](docs/adr/0003-usar-spring-boot-4.md) — Usar Spring Boot 4.x
 - [0004](docs/adr/0004-desactivar-open-session-in-view.md) — Desactivar Open Session In View
+- [0005](docs/adr/0005-prefijar-las-tablas.md) — Prefijar las tablas con `bookingcore_`
+- [0006](docs/adr/0006-identidad-con-uuid-v7.md) — Identificar las entidades con UUID v7
+- [0007](docs/adr/0007-type-como-etiqueta-opaca.md) — `type` es una etiqueta opaca, no un catálogo
 
 ## Fuera de alcance
 
