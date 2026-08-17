@@ -138,6 +138,14 @@ sirve de nada.
 | Migraciones | Flyway |
 | Tests | JUnit, AssertJ, Testcontainers |
 
+## Cómo está construido
+
+La carpeta [docs/aprendizaje](docs/aprendizaje/README.md) explica los conceptos
+detrás del código: el recorrido de una petición, cómo funcionan JPA e Hibernate,
+qué resuelve cada pieza de infraestructura y por qué el código tiene la forma que
+tiene. Está escrita para quien conoce Java pero no viene de trabajar con Spring
+Boot.
+
 ## Decisiones de diseño
 
 Las decisiones relevantes están documentadas como
