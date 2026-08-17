@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build y tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v7
+
+      - name: Configurar Java 21
+        uses: actions/setup-java@v5
+        with:
+          java-version: '21'
+          distribution: temurin
+          # Cachea ~/.m2 entre ejecuciones usando el pom.xml como clave.
+          cache: maven
+
+      # Los runners de GitHub incluyen Docker, que es lo que Testcontainers
+      # necesita para levantar PostgreSQL durante los tests de integración.
+      # Por eso la suite corre acá tal cual corre en local, sin sustituir la
+      # base de datos por una en memoria.
+      - name: Ejecutar la suite completa
+        run: ./mvnw --batch-mode --no-transfer-progress verify
