@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: BookingCore
+
+  # Los valores por defecto coinciden con compose.yaml, así la aplicación corre
+  # localmente sin configurar nada, pero todo sigue siendo sobreescribible por
+  # entorno en cualquier despliegue.
+  datasource:
+    url: jdbc:postgresql://${BOOKINGCORE_DB_HOST:localhost}:${BOOKINGCORE_DB_PORT:5433}/${BOOKINGCORE_DB_NAME:bookingcore}
+    username: ${BOOKINGCORE_DB_USER:bookingcore}
+    password: ${BOOKINGCORE_DB_PASSWORD:bookingcore}
+
+  jpa:
+    hibernate:
+      # El esquema lo gobierna Flyway. Hibernate solo puede verificar que las
+      # entidades mapeadas coincidan con él, nunca modificarlo. Ver docs/adr/0001.
+      ddl-auto: validate
+    # Desactivado a propósito. Ver docs/adr/0004.
+    open-in-view: false
+
+management:
+  endpoint:
+    health:
+      # Expone los componentes individuales del health (db, diskSpace, ...).
+      # Es seguro acá porque BookingCore todavía no incluye autenticación; un
+      # despliegue que agregue seguridad debería reconsiderarlo.
+      show-details: always

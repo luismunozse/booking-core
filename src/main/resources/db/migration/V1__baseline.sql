@@ -1,0 +1,11 @@
+-- Migración baseline de BookingCore.
+--
+-- No contiene DDL a propósito.
+--
+-- Su función es dejar establecido el pipeline de Flyway antes de que exista
+-- ninguna tabla de dominio: al aplicarse demuestra que la ubicación de las
+-- migraciones (classpath:db/migration), la convención de nombres y la tabla de
+-- historial están bien configuradas. Descubrir un error de configuración acá
+-- es barato; descubrirlo mientras se diseña el esquema del dominio, no.
+--
+-- El esquema de dominio empieza en V2.

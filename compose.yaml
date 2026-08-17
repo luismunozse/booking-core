@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: bookingcore-postgres
+    environment:
+      POSTGRES_DB: bookingcore
+      POSTGRES_USER: bookingcore
+      POSTGRES_PASSWORD: bookingcore
+    ports:
+      # Se publica en 5433 y no en 5432 porque ese puerto suele estar ocupado
+      # por una instalación nativa de PostgreSQL, y el choque es silencioso: la
+      # aplicación se conecta al servidor equivocado en lugar de fallar.
+      # Se puede sobreescribir con BOOKINGCORE_DB_PORT (la app lee la misma
+      # variable).
+      - "${BOOKINGCORE_DB_PORT:-5433}:5432"
+    volumes:
+      # PostgreSQL 18 movió PGDATA a /var/lib/postgresql/18/docker y declara su
+      # volumen en /var/lib/postgresql. Montar la ruta anterior a la 18
+      # (/var/lib/postgresql/data) hace que se pierdan todos los datos al
+      # reiniciar, sin ningún error.
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      # Permite que `docker compose up --wait` espere hasta que Postgres acepte
+      # conexiones de verdad, y no solamente hasta que el contenedor exista.
+      test: ["CMD-SHELL", "pg_isready -U bookingcore -d bookingcore"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres-data:
