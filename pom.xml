@@ -54,6 +54,16 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webmvc</artifactId>
 		</dependency>
+		<!--
+			Bean Validation. Se difirió a propósito hasta ahora: recién con el
+			primer DTO de entrada hay algo que validar en el borde de la API.
+			Los invariantes del dominio no dependen de esta dependencia, viven
+			en los constructores de las entidades.
+		-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-database-postgresql</artifactId>

@@ -18,6 +18,14 @@ spring:
     # Desactivado a propósito. Ver docs/adr/0004.
     open-in-view: false
 
+  mvc:
+    problemdetails:
+      # Viene en false por defecto. Al activarlo, los errores que maneja Spring
+      # (body malformado, método no soportado, validación) se devuelven como
+      # application/problem+json según RFC 7807, en lugar del formato propio de
+      # Spring Boot. Ver docs/adr/0008.
+      enabled: true
+
 management:
   endpoint:
     health:
