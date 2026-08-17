@@ -29,8 +29,8 @@ un `Resource`.
 | Hito | Alcance | Estado |
 | --- | --- | --- |
 | M0 | Infraestructura: build, PostgreSQL, migraciones, health check, tests | ✅ Completo |
-| M1 | `Resource`: modelo de dominio, CRUD, validación, contrato de errores | 🚧 En curso |
-| M2 | `Availability`: modelado de tiempo y husos horarios | ⏳ |
+| M1 | `Resource`: modelo de dominio, CRUD, validación, contrato de errores | ✅ Completo |
+| M2 | `Availability`: modelado de tiempo y husos horarios | 🚧 En curso |
 | M3 | `Booking`: creación y detección de solapamientos | ⏳ |
 | M4 | Concurrencia: bloqueos, constraints y tests multihilo | ⏳ |
 
@@ -48,6 +48,41 @@ El vocabulario del motor es deliberadamente genérico:
 
 El core nunca conoce el dominio de quien lo integra. No hay ni habrá un
 `HotelBooking` ni un `MedicalAppointment`.
+
+## API
+
+| Método | Ruta | Qué hace |
+| --- | --- | --- |
+| `POST` | `/api/v1/resources` | Crea un recurso. Devuelve `201` con la cabecera `Location` |
+| `GET` | `/api/v1/resources` | Lista recursos paginados (`?page=0&size=20`) |
+| `GET` | `/api/v1/resources/{id}` | Devuelve un recurso |
+| `PATCH` | `/api/v1/resources/{id}` | Modifica los campos presentes en el cuerpo |
+| `POST` | `/api/v1/resources/{id}/deactivate` | Desactiva el recurso. Devuelve `204` |
+| `POST` | `/api/v1/resources/{id}/activate` | Reactiva el recurso. Devuelve `204` |
+
+Los recursos no se borran: se desactivan. Borrarlos rompería la historia de las
+reservas que los referencian.
+
+Los errores siguen [RFC 7807](https://www.rfc-editor.org/rfc/rfc7807), con el
+media type `application/problem+json`:
+
+```json
+{
+  "type": "urn:bookingcore:problem:validation-failed",
+  "title": "Solicitud inválida",
+  "status": 400,
+  "detail": "Uno o más campos no cumplen las restricciones",
+  "instance": "/api/v1/resources",
+  "errors": {
+    "name": "el nombre es obligatorio",
+    "type": "el tipo es obligatorio",
+    "capacity": "la capacidad debe ser al menos 1"
+  }
+}
+```
+
+El campo `type` es un identificador estable: los clientes pueden ramificar sobre
+él sin parsear mensajes de texto.
 
 ## Cómo ejecutarlo
 
@@ -116,6 +151,7 @@ consideradas y lo que cuestan.
 - [0005](docs/adr/0005-prefijar-las-tablas.md) — Prefijar las tablas con `bookingcore_`
 - [0006](docs/adr/0006-identidad-con-uuid-v7.md) — Identificar las entidades con UUID v7
 - [0007](docs/adr/0007-type-como-etiqueta-opaca.md) — `type` es una etiqueta opaca, no un catálogo
+- [0008](docs/adr/0008-contrato-de-errores-rfc-7807.md) — Contrato de errores con Problem Details (RFC 7807)
 
 ## Fuera de alcance
 

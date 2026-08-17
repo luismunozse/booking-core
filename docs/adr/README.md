@@ -16,3 +16,4 @@ cambiar una decisión: se lo reemplaza por uno nuevo que lo supersede.
 | [0005](0005-prefijar-las-tablas.md) | Prefijar las tablas con `bookingcore_` | Aceptado |
 | [0006](0006-identidad-con-uuid-v7.md) | Identificar las entidades con UUID v7 | Aceptado |
 | [0007](0007-type-como-etiqueta-opaca.md) | `type` es una etiqueta opaca, no un catálogo | Aceptado |
+| [0008](0008-contrato-de-errores-rfc-7807.md) | Contrato de errores con Problem Details (RFC 7807) | Aceptado |
